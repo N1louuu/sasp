@@ -34,7 +34,7 @@ function getGameById($id) {
     $stm->execute([$id]);
     $game = $stm->fetch(PDO::FETCH_ASSOC);
     return $game;
-}  
+}
 
 function insertNewGame($name, $company, $release) {
     $pdo = connect();
