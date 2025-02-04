@@ -70,9 +70,13 @@ if (isset($_POST["poista_rotu"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script defer src="JS/main.js"></script>
     <title>roolipeli hahmot</title>
 </head>
 <body>
+    <?php
+    require "header.php"
+    ?>
     <div class="d-flex flex-row">
         <div class="m-3 w-50">
             <h2>Luokat</h2>
@@ -106,7 +110,5 @@ if (isset($_POST["poista_rotu"])) {
             ?>
         </div>
     </div>
-
-
 </body>
 </html>
