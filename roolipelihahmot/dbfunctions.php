@@ -73,12 +73,36 @@ function deleteRace($id) {
 
 function getCharacters() {
     $pdo = connect();
-    $sql = "SELECT * FROM `character`";
+    $sql = "SELECT * FROM `character`
+    INNER JOIN class ON class.classid = character.classid
+    INNER JOIN race ON race.raceid = character.raceid;";
     $stm = $pdo->query($sql);
     $games = $stm->fetchAll(PDO::FETCH_ASSOC);
     return $games;
 }
 
+function insertNewChar($name, $str, $dex, $int, $class, $race) {
+    $pdo = connect();
+    $sql = "INSERT INTO `character` (`name`, strength, dexterity, wisdom, classid, raceid) VALUES (?, ?, ?, ?, ?, ?)";
+    $stm = $pdo->prepare($sql);
+    $ok = $stm->execute([$name, $str, $dex, $int, $class, $race]);
+    return $ok;
+}
 
+function deleteChar($id) {
+    $pdo = connect();
+    $sql = "DELETE FROM `character` WHERE characterid=?";
+    $stm = $pdo->prepare($sql);
+    $ok = $stm->execute([$id]);
+    return $ok;
+}
+
+function updateChar($str, $dex, $int, $id) {
+    $pdo = connect();
+    $sql = "UPDATE `character` SET `strength`=?, dexterity=?, `wisdom`=? WHERE characterid=?";
+    $stm = $pdo->prepare($sql);
+    $ok = $stm->execute([$str, $dex, $int, $id]);
+    return $ok;
+} 
 
 ?>
