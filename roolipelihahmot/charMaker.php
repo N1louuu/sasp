@@ -47,7 +47,7 @@ function printCharacters($characters) {
         echo "  <button onclick='showEdit(\"".$char["name"]."\", ".$char["strength"].", ".$char["dexterity"].", ".$char["wisdom"].", ".$char["characterid"].")' data-bs-toggle='modal' class='btn btn-primary w-50 btn-sm m-1 text-nowrap' data-bs-target='#exampleModal'>muokkaa</button>";
         echo "  <form method='post' class='w-50 m-1'>
                     <input hidden name='characterid' value='".$char["characterid"]."'>
-                    <input type='submit' name='poista' value='posta' class='btn btn-danger btn-sm w-100'>
+                    <input type='submit' name='poista' value='poista' class='btn btn-danger btn-sm w-100'>
                 </form>";
         echo "</div>";
 

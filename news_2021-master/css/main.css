@@ -1,0 +1,17 @@
+header {
+    background: #0f6ffd;
+    padding: 2em;
+    text-align: center;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: 150px;
+    background: #0f6efdab;
+    
+}
