@@ -2,6 +2,12 @@ header {
     background: #0f6ffd;
     padding: 2em;
     text-align: center;
+    width: 100vw; 
+}
+
+header div h3 {
+    text-align: center;
+    text-justify: center;
 }
 
 body {

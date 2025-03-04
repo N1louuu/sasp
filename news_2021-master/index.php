@@ -3,8 +3,6 @@ session_start();
 
 $id = session_id();
 
-echo "session: ".$id;
-
 require_once('models\connection.php');
 require_once('libraries\auth.php');
 
@@ -45,6 +43,14 @@ switch($route) {
     case "/uusiArvostelu.php":
       if (isLoggedIn()) {
         require "views/uusiArvostelu.php";
+      } else {
+        header('Location: /etusivu.php');
+      }
+    break;
+
+    case "/omasivu.php":
+      if (isLoggedIn()) {
+        require "views/omasivu.php";
       } else {
         header('Location: /etusivu.php');
       }

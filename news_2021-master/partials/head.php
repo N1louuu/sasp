@@ -10,8 +10,27 @@
 </head>
 <body>
 
-    <header>
-        <button onclick="noNewTab('etusivu.php')" class="" style="background: none; border: none;">
-            <h1>get gud</h1>
-        </button>
+    <header class="">
+        <div class="row">
+            <div class="col-sm">
+
+            </div>
+            <div class="col-sm">
+                <button onclick="noNewTab('etusivu.php')" style="background: none; border: none;">
+                    <h1>get gud</h1>
+                </button>
+            </div>
+            <div class="col-sm">
+                <button onclick="noNewTab('omasivu.php')" style="background: none; border: none;">
+                    <?php
+                if (isset($_SESSION["name"])) {
+                    $name = $_SESSION["name"];
+                    echo "<h3 class='text-center'>" . $name . "</h3>";
+                } else {
+                    echo "<h3 class='text-center'>not logged in</h3>";
+                }
+                ?>
+            </div>
+
+        </div>
     </header>

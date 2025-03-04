@@ -36,12 +36,36 @@ function connect() {
         return $ok;
     }
 
-    function insertNewReview($type, $title, $rating, $review) {
+    function insertNewReview($type, $title, $rating, $review, $user) {
         $pdo = connect();
         $date = date("Y/m/d");
-        $sql = "INSERT INTO arvostelu (`date`, `type`, `name`, `rating`, `review`) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO arvostelu (`date`, `type`, `name`, `rating`, `review`, `user`) VALUES (?, ?, ?, ?, ?, ?)";
         $stm = $pdo->prepare($sql);
-        $ok = $stm->execute([$date, $type, $title, $rating, $review]);
+        $ok = $stm->execute([$date, $type, $title, $rating, $review, $user]);
+        return $ok;
+    }
+
+    function getReviews() {
+        $pdo = connect();
+        $sql = "SELECT * FROM arvostelu";
+        $stm = $pdo->query($sql);
+        $games = $stm->fetchAll(PDO::FETCH_ASSOC);
+        return $games;
+    }
+
+    function updateReview($name, $rating, $review, $id) {
+        $pdo = connect();
+        $sql = "UPDATE `arvostelu` SET `name`=?, rating=?, `review`=? WHERE id=?";
+        $stm = $pdo->prepare($sql);
+        $ok = $stm->execute([$name, $rating, $review, $id]);
+        return $ok;
+    }
+
+    function deleteReview($id) {
+        $pdo = connect();
+        $sql = "DELETE FROM `arvostelu` WHERE id=?";
+        $stm = $pdo->prepare($sql);
+        $ok = $stm->execute([$id]);
         return $ok;
     }
 
