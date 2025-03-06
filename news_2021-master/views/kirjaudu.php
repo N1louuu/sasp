@@ -4,8 +4,9 @@ require "partials/head.php"
 
 ?>
 
-
-<h1>KIRJAUDU</h1>
+<div class="d-flex justify-content-around w-100 mt-3">
+    <h1>KIRJAUDU</h1>
+</div>
 
 <form action="" method="post" class="card d-flex flex-column mx-5 p-2">
     <label for="name">nimi:</label>
@@ -26,7 +27,7 @@ if (isset($_POST["name"], $_POST["pass"])) {
         $_SESSION["pass"] = $sana;
         header('Location: /arvostelu.php');
     } else {
-        echo "wronk";
+        echo "<p class='mx-3 text-danger'>Väärä salasana tai nimi</p>";
     }
 }
 

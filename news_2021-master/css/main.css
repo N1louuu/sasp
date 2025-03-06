@@ -2,7 +2,8 @@ header {
     background: #0f6ffd;
     padding: 2em;
     text-align: center;
-    width: 100vw; 
+    width: 100vw;
+
 }
 
 header div h3 {
@@ -20,4 +21,12 @@ footer {
     margin-top: 150px;
     background: #0f6efdab;
     
+}
+
+.hover-b {
+    transition: color 1s;
+}
+
+.hover-b:hover {
+    color: rgba(255, 228, 196, 0.284);
 }

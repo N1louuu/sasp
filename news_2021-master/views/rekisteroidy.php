@@ -3,14 +3,15 @@
 require "partials/head.php"
 
 ?>
-
-<h1>REKISTERÖIDY</h1>
+<div class="d-flex justify-content-around w-100 mt-3">
+    <h1>REKISTERÖIDY</h1>
+</div>
 
 <form action="" method="post" class="card d-flex flex-column mx-5 p-2">
     <label for="name">nimi:</label>
-    <input type="text" name="name" class="form-control">
+    <input type="text" name="name" class="form-control" required>
     <label for="pass">salasana:</label>
-    <input type="password" name="pass" class="form-control">
+    <input type="password" name="pass" class="form-control" required>
     <input type="submit" class="btn btn-primary mt-2">
 </form>
 

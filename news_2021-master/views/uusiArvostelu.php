@@ -8,21 +8,21 @@ require "partials/head.php"
 
 <form action="" method="post" class="card d-flex flex-column mx-5 p-2">
     <label for="name">nimi:</label>
-    <input type="text" name="name" class="form-control">
+    <input type="text" name="name" class="form-control" required>
     
     <label for="type">tyyppi:</label>
-    <select name="type" class="form-control">
+    <select name="type" class="form-control" required>
         <option value="elokuva">elokuva</option>
         <option value="kirja">kirja</option>
-        <option value="laulu">laulu</option>
+        <option value="sarja">sarja</option>
         <option value="peli">peli</option>
     </select>
 
     <label for="rating">rating:</label>
-    <input type="number" name="rating" class="form-control" min="0" max="5">
+    <input type="number" name="rating" class="form-control" min="0" max="5" required>
 
     <label for="review">review:</label>
-    <input type="text" name="review" class="form-control">
+    <input type="text" name="review" class="form-control" required>
 
     <input type="submit" class="btn btn-primary mt-2">
 </form>

@@ -32,16 +32,16 @@ function showReviews() {
         if ($user == $review["user"]) {
             echo "<div class='card m-2 p-2'>";
             echo "<div class='d-flex flex-row justify-content-between'>";
-            echo "<h4>- " . $review["user"] . "</h4>";
+            echo "<h4>- " . htmlspecialchars($review["user"]) . "</h4>";
             echo "<button onClick='modalinfo(\"".$review["user"]."\", \"".$review["name"]."\", \"".$review["type"]."\", \"".$review["rating"]."\", \"".$review["review"]."\" ,".$review["id"].")' class='btn btn-primary px-5' data-bs-toggle='modal' data-bs-target='#exampleModal'>edit</button>";
             echo "</div>";
             echo "<div class='d-flex flex-row'>";
-            echo "<h6 class='me-2'>" . $review["date"] . "</h6>";
-            echo "<h6 >" . $review["type"] . "</h6>";
+            echo "<h6 class='me-2'>" . htmlspecialchars($review["date"]) . "</h6>";
+            echo "<h6 >" . htmlspecialchars($review["type"]) . "</h6>";
             echo "</div>";
-            echo "<h2>" . $review["name"] . "</h2>";
-            echo "<p>" . $review["rating"] . "/5</p>";
-            echo "<p>" . $review["review"] . "</p>";
+            echo "<h2>" . htmlspecialchars($review["name"]) . "</h2>";
+            echo "<p>" . htmlspecialchars($review["rating"]) . "/5</p>";
+            echo "<p>" . htmlspecialchars($review["review"]) . "</p>";
             echo "</div>";
         }
     }
@@ -49,12 +49,16 @@ function showReviews() {
 
 ?>
 
+<div class="d-flex justify-content-around w-100 mt-3">
+    <h1>Oma sivu</h1>
+</div>
+
 <div class="mt-3 d-flex justify-content-around w-100 ">
-    <h1>My page</h1>
-    
     <form action="" method="post">
         <input type="submit" name="logout" value="logout" class="btn btn-danger">
     </form>
+
+    <a href="uusiArvostelu.php">Uusi arvostelu</a>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

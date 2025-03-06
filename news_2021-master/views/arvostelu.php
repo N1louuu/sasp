@@ -1,7 +1,8 @@
 <script>
-function modalinfo(user, name, type, rating, given_review, id) {
+
+function modalinfoX(user, name, type, rating, given_review, id) {
+
     mname = document.getElementById("modalname")
-    mtype = document.getElementById("modaltype")
     mrating = document.getElementById("modalrating")
     review = document.getElementById("modalreview")
     mid = document.getElementById("modalid")
@@ -15,8 +16,8 @@ function modalinfo(user, name, type, rating, given_review, id) {
 
 }
 
-function submitModal() {
-    document.getElementById("editForm").submit();
+function submitForm($form) {
+    document.getElementById($form).submit();
 }
 
 </script>
@@ -28,30 +29,64 @@ function showReviews() {
     $reviews = getReviews();
     $user = $_SESSION["name"];
 
-    foreach ($reviews as $review) {
-        echo "<div class='card m-2 p-2'>";
-        echo "<div class='d-flex flex-row justify-content-between'>";
-        echo "<h4>- " . $review["user"] . "</h4>";
-        if ($review["user"] == $user) {
-            echo "<button onClick='modalinfo(\"".$review["user"]."\", \"".$review["name"]."\", \"".$review["type"]."\", \"".$review["rating"]."\", \"".$review["review"]."\" ,".$review["id"].")' class='btn btn-primary px-5' data-bs-toggle='modal' data-bs-target='#exampleModal'>edit</button>";
-        }
-        echo "</div>";
-        echo "<div class='d-flex flex-row'>";
-        echo "<h6 class='me-2'>" . $review["date"] . "</h6>";
-        echo "<h6 >" . $review["type"] . "</h6>";
-        echo "</div>";
-        echo "<h2>" . $review["name"] . "</h2>";
-        echo "<p>" . $review["rating"] . "/5</p>";
-        echo "<p>" . $review["review"] . "</p>";
-        echo "</div>";
+    $filter = "kaikki";
+    if (isset($_GET["filter"])) {
+        $filter = $_GET["filter"];
+    }
 
+    foreach ($reviews as $review) {
+        if ($review["type"] == $filter || $filter == "kaikki") {
+            echo "<div class='card m-2 p-2'>";
+            echo "<div class='d-flex flex-row justify-content-between'>";
+            echo "<h4>- " . $review["user"] . "</h4>";
+            if ($review["user"] == $user) {
+                echo "<button onClick='modalinfoX(\"".$review["user"]."\", \"".$review["name"]."\", \"".$review["type"]."\", \"".$review["rating"]."\", \"".$review["review"]."\" ,".$review["id"].")' class='btn btn-primary px-5' data-bs-toggle='modal' data-bs-target='#exampleModal'>edit</button>";
+            }
+            echo "</div>";
+            echo "<div class='d-flex flex-row'>";
+            echo "<h6 class='me-2'>" . htmlspecialchars($review["date"]) . "</h6>";
+            echo "<h6 >" . htmlspecialchars($review["type"]) . "</h6>";
+            echo "</div>";
+            echo "<h2>" . htmlspecialchars($review["name"]) . "</h2>";
+            echo "<p>" . htmlspecialchars($review["rating"]) . "/5</p>";
+            echo "<p>" . htmlspecialchars($review["review"]) . "</p>";
+            echo "</div>";
+        }
     }
 }
 
-?>
-<h1>ADMINN</h1>
+function makefilter() {
+    $filter = "kaikki";
+    if (isset($_GET["filter"])) {
+        $filter = $_GET["filter"];
+    }
+    $arr = array("kaikki", "elokuva", "kirja", "sarja", "peli");
+    echo 
+    '<form action="" method="get" id="filter">
+    <select name="filter" class="form-control mx-2" onchange="submitForm(\'filter\')">';
+    foreach ($arr as $thing) {
+        echo '<option';
 
-<div class="d-flex justify-content-around w-100 ">
+        if ($filter == $thing) {
+            echo ' selected="selected"';
+        }
+        
+        echo ' value="'.$thing.'">'.$thing.'</option>';
+    }
+
+    echo 
+    '</select>
+    <input class="d-none" name="delete" value="1">
+    </form>';
+}
+
+?>
+<div class="d-flex justify-content-around w-100 mt-3">
+    <h1>Arvostelut</h1>
+</div>
+
+
+<div class="d-flex justify-content-around w-100 mt-3">
 
 <form action="" method="post">
     <input type="submit" name="logout" value="logout" class="btn btn-danger">
@@ -61,6 +96,9 @@ function showReviews() {
 
 
 </div>
+<?php
+makefilter()
+?>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -91,7 +129,7 @@ function showReviews() {
             </form>
             <div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="submitModal()">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm('editForm')">Save changes</button>
             </div>
       </div>
     </div>

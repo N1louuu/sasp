@@ -16,12 +16,12 @@
 
             </div>
             <div class="col-sm">
-                <button onclick="noNewTab('etusivu.php')" style="background: none; border: none;">
+                <button onclick="noNewTab('etusivu.php')" style="background: none; border: none;" class="hover-b">
                     <h1>get gud</h1>
                 </button>
             </div>
             <div class="col-sm">
-                <button onclick="noNewTab('omasivu.php')" style="background: none; border: none;">
+                <button onclick="noNewTab('omasivu.php')" style="background: none; border: none;" class="hover-b">
                     <?php
                 if (isset($_SESSION["name"])) {
                     $name = $_SESSION["name"];
