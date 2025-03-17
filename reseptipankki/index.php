@@ -4,7 +4,6 @@ session_start();
 $id = session_id();
 
 require_once('models\connection.php');
-require_once('libraries\auth.php');
 
 set_include_path(dirname(__FILE__) . '/../');
 
