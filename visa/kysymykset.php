@@ -5,11 +5,9 @@ $id = session_id();
 require "DBfunctions.php";
 
 $questions = getAllQuestion();
-$_SESSION["count"]+=1;
-print_R($_SESSION["count"]);
 
-if ($_SESSION["count"] >= count($questions)) {
-    header('Location: /index.php');
+if ($_SESSION["count"] >= 10) {
+    header('Location: /loppuruutu.php');
 }
 
 function printAllQuestions($questions) {
@@ -49,28 +47,39 @@ function printQuestion($q, $correct) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
     <title>HMMMMmmmmmmmmmmm???</title>
-    <script defer src="main.js"></script>
+    <script src="main.js" defer></script>
 </head>
+
 <body>
-    
+
+<div class="d-flex flex-column align-items-center justify-content-center w-100 mt-5">
+    <?php
+        echo $_SESSION["count"] . "/10";
+    ?>
+</div>
+
 <?php
 
 printQuestion($questions[$_SESSION["order"][$_SESSION["count"]]], $correct);
 
 ?>
 
-<form action="" method="post" class="mt-5 d-flex justify-content-center">
-    <input type='text' name='ans' id='ans' class='d-none'>
+<form action="" method="post" class="mt-5 d-flex justify-content-center flex-column align-items-center">
+    <h1 id='koma'></h1>
+    <input type='text' name='ans' id='tulos' style="display: none" value='hai'>
     <input type="submit" value="next" name="next" id="next" class="btn btn-primary w-25" style="display: none">
 </form>
 
 <?php
 
 if (isset($_POST["next"])) {
-    
+    $_SESSION["count"]+=1;
+    if ($_POST["ans"] == "true") {
+        $_SESSION["points"]+=1;
+    }
+    header("Refresh:0");
 }
 
 ?>
-
 </body>
 </html>
