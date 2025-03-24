@@ -22,7 +22,7 @@ function submitForm($form) {
 </script>
 
 <header class="w-100 bg-primary">
-    <div class="d-flex flex-row m-3 justify-content-around">
+    <div class="d-flex flex-row justify-content-around">
         <button onclick="noNewTab('etusivu.php')" style="background: none; border: none;">
             <h1>reseptit</h1>
         </button>
@@ -36,6 +36,9 @@ function submitForm($form) {
             <?php
             if (isset($_SESSION["username"], $_SESSION["password"])) {
                 echo "
+                <button onclick=\"noNewTab('reseptin_luoimissivu.php')\" style='background: none; border: none;'>
+                <h3>luo resepti</h3>
+                </button>
                 <button onclick=\"noNewTab('omat_tiedot.php')\" style='background: none; border: none;'>
                 <h3>oma sivu - ".$_SESSION["username"]."</h3>
                 </button>
@@ -81,8 +84,10 @@ if (isset($_POST["username_login"], $_POST["password_login"])) {
     $sana = $_POST["password_login"];
     if (login($nimi, $sana)) {
         echo "works";
+        $user = login($nimi, $sana);
         $_SESSION["username"] = $nimi;
         $_SESSION["password"] = $sana;
+        $_SESSION["userid"] = $user["id"];
         header("Refresh:0");
     } else {
         echo "<p class='mx-3 text-danger'>Väärä salasana tai nimi</p>";

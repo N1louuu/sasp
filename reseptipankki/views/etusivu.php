@@ -4,15 +4,6 @@ require "partials/head.php"
 
 ?>
 
-
-<div class="w-100 d-flex flex-column align-items-center mt-5">
-    <h1>UMM GUYS??</h1>
-    <button data-bs-toggle='modal' data-bs-target='#exampleModal2' style="background: none; border: none;">
-        <h3>rekisteröidy</h3>
-    </button>
-</div>
-
-
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -23,13 +14,13 @@ require "partials/head.php"
             </div>
         <form action="" method="post" class=" d-flex flex-column mx-5 p-2" id="editForm">
             <label for="username">username:</label>
-            <input type="text" name="username" class="form-control">
+            <input type="text" name="username" class="form-control" required>
 
             <label for="password">password:</label>
-            <input type="password" name="password" class="form-control">
+            <input type="password" name="password" class="form-control" required>
 
             <label for="email">sähköposti:</label>
-            <input type="text" name="email" class="form-control">
+            <input type="text" name="email" class="form-control" required>
 
             <?php
             echo '<label>Syntymävuosi:</label>
@@ -47,10 +38,12 @@ require "partials/head.php"
   </div>
 </div>
 
-
+<div class="w-100 d-flex flex-column align-items-center mt-5">
+    <h1>UMM GUYS??</h1>
+    <button data-bs-toggle='modal' data-bs-target='#exampleModal2' style="background: none; border: none;">
+        <h3>rekisteröidy</h3>
+    </button>
 <?php
-
-require "partials/footer.php";
 
 if (isset($_POST["username"], $_POST["password"])) {
     $nimi = $_POST["username"];
@@ -59,16 +52,36 @@ if (isset($_POST["username"], $_POST["password"])) {
     $users = getUsers();
     $yes = true;
     foreach ($users as $user) {
-        if ($email == $user["username"]) {
+        if ($email == $user["sähköposti"]) {
             $yes = false;
+            echo "<p class='text-danger'>käyttämälläsi sähköpostilla on jo käyttäjä</p>";
         }
     }
-    if (!$yes) {
+    foreach ($users as $user) {
+        if ($nimi == $user["username"]) {
+            $yes = false;
+            echo "<p class='text-danger'>nimi on jo käytössä</p>";
+        }
+    }
+    if (date('Y') - $year < 15) {
+        $yes = false;
+        echo "<p class='text-danger'>liian nuori</p>";
+    }
+
+    if ($yes) {
         $sana = hashPassword($_POST["password"]);
         insertNewUser($nimi, $sana, $email, $year);
     } else {
-        echo "no";
+        echo "";
     }
 }
+
+?>
+</div>
+
+<?php
+
+require "partials/footer.php";
+
 
 ?>

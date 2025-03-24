@@ -27,6 +27,15 @@ function getUsers() {
     return $games;
 }
 
+function getUserById($id) {
+    $pdo = connect();
+    $sql = "SELECT * FROM users WHERE id=?";
+    $stm = $pdo->prepare($sql);
+    $stm->execute([$id]);
+    $game = $stm->fetch(PDO::FETCH_ASSOC);
+    return $game;
+}  
+
 function insertNewUser($name, $password, $email, $year) {
     $name = cleanUpInput($name);
     $password = cleanUpInput($password);

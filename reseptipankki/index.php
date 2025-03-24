@@ -25,12 +25,24 @@ switch($route) {
     require "views/kategoriasivu.php";
     break;
 
-  case "/omat_tiedot.php":
-    require "views/omat_tiedot.php";
-    break;
-
   case "/yhteystietosivu.php":
     require "views/yhteystietosivu.php";
+    break;
+
+  case "/omat_tiedot.php":
+    if (isLoggedIn()) {
+      require "views/omat_tiedot.php";
+    } else {
+      header('Location: /etusivu.php');
+    }
+    break;
+
+  case "/reseptin_luoimissivu.php":
+    if (isLoggedIn()) {
+      require "views/reseptin_luoimissivu.php";
+    } else {
+      header('Location: /etusivu.php');
+    }
     break;
   
   default:
