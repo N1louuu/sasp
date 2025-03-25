@@ -55,7 +55,7 @@ function connect() {
 
     function updateReview($name, $rating, $review, $id) {
         $pdo = connect();
-        $sql = "UPDATE `arvostelu` SET `name`=?, rating=?, `review`=? WHERE id=?";
+        $sql = "UPDATE `arvostelu` SET `name`=?, rating=?,`review`=? WHERE id=?";
         $stm = $pdo->prepare($sql);
         $ok = $stm->execute([$name, $rating, $review, $id]);
         return $ok;
