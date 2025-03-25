@@ -1,0 +1,93 @@
+<?php
+
+require "partials/head.php";
+
+$user_id = -1;
+if (isset($_SESSION["userid"])) {
+    $user_id = $_SESSION["userid"];
+}
+
+?>
+
+
+<div class="w-100 d-flex flex-column align-items-center mt-5">
+
+<h1>RESEPTI:</h1>
+
+<?php
+
+if (isset($_GET["resepti_id"])) {
+    $resepti = getReseptiById($_GET["resepti_id"]);
+
+    $kategoria = "";
+    switch($resepti["kategoria"]) {
+        case 1:
+            $kategoria = "aamiainen";
+            break;
+        case 2:
+            $kategoria = "pääruoka";
+            break;
+        case 3:
+            $kategoria = "välipala";
+            break;
+        case 4:
+            $kategoria = "jälkiruoka";
+            break;
+    }
+
+    $user = getUserById($resepti["lisääjä"]);
+
+    echo 
+    "
+    <div class='card m-2 p-2 w-50'>
+
+    <div method='get' action='reseptin_katsomis_sivu.php' class='d-flex flex-row justify-content-between'>
+        <h1>".$resepti["nimi"]."</h1>
+        <h2>".$user["username"]."</h2>
+    </div>
+    <p class='fw-bold'>".$kategoria." - ".$resepti["lisäyspäivämäärä"]."</p>
+    <h4 class='fw-bold'>aineosat:</h4>";
+    echo "<ul>";
+
+    $word = "";
+    if ($resepti["ainesosaluettelo"] != "") {
+        foreach (mb_str_split($resepti["ainesosaluettelo"]) as $letter) {
+            if ($letter == " ") {
+                echo "<li>".$word."</li>";
+                $word = " ";
+            } else {
+                if ($letter != "-") {
+                    $word .= $letter;
+                } else {
+                    $word .= " - ";
+                }
+            }
+        }
+        echo "<li>".$word."</li>";
+    }
+
+    echo "</ul>    
+    <h4 class='fw-bold'>valmistusohjeet:</h4>
+    <p>".$resepti["valmistusohjeet"]."</p>
+    ";
+    if ($user_id == $resepti["lisääjä"]) {
+        echo "
+        <form method='get' action='reseptin_editoiminen.php'>
+            <input name='resepti_id' type='text' value=".$resepti["id"]." class='d-none'>
+            <input type='submit' class='form-control btn btn-primary' value='editoi'>
+        </form>
+        ";
+    }
+    echo "</div>";
+}
+
+?>
+
+</div>
+
+
+<?php
+
+require "partials/footer.php"
+
+?>

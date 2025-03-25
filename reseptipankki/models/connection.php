@@ -48,6 +48,52 @@ function insertNewUser($name, $password, $email, $year) {
     return $ok;
 }
 
+function insertNewResepti($name, $kategory, $aineosaluettelo, $valmistusohjeet, $lisääjä): bool {
+    $name = cleanUpInput($name);
+    $kategory = cleanUpInput($kategory);
+    $aineosaluettelo = cleanUpInput($aineosaluettelo);
+    $valmistusohjeet = cleanUpInput($valmistusohjeet);
+    $date = date("Y/m/d");
+    $pdo = connect();
+    $sql = "INSERT INTO reseptit (`nimi`, `lisäyspäivämäärä`, `kategoria`, `ainesosaluettelo`, `valmistusohjeet`, `lisääjä`) VALUES (?, ?, ?, ?, ?, ?)";
+    $stm = $pdo->prepare($sql);
+    $ok = $stm->execute([$name, $date, $kategory, $aineosaluettelo, $valmistusohjeet, $lisääjä]);
+    return $ok;
+}
+
+function getReseptit() {
+    $pdo = connect();
+    $sql = "SELECT * FROM reseptit";
+    $stm = $pdo->query($sql);
+    $games = $stm->fetchAll(PDO::FETCH_ASSOC);
+    return $games;
+}
+
+function getReseptiById($id) {
+    $pdo = connect();
+    $sql = "SELECT * FROM reseptit WHERE id=?";
+    $stm = $pdo->prepare($sql);
+    $stm->execute([$id]);
+    $game = $stm->fetch(PDO::FETCH_ASSOC);
+    return $game;
+}
+
+function updateResepti($name, $kategoria, $ainesosaluettelo, $valmistusohjeet, $id) {
+    $pdo = connect();
+    $sql = "UPDATE `reseptit` SET `nimi`=?, `kategoria`=?, `ainesosaluettelo`=?, `valmistusohjeet`=? WHERE `id`=?";
+    $stm = $pdo->prepare($sql);
+    $ok = $stm->execute([$name, $kategoria, $ainesosaluettelo, $valmistusohjeet, $id]);
+    return $ok;
+}
+
+function deleteResepti($id) {
+    $pdo = connect();
+    $sql = "DELETE FROM `reseptit` WHERE id=?";
+    $stm = $pdo->prepare($sql);
+    $ok = $stm->execute([$id]);
+    return $ok;
+}
+
 function login($username, $password){
     $username = cleanUpInput($username);
     $password = cleanUpInput($password);

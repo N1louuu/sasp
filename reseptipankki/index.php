@@ -29,9 +29,21 @@ switch($route) {
     require "views/yhteystietosivu.php";
     break;
 
+  case "/reseptin_katsomis_sivu.php":
+    require "views/reseptin_katsomis_sivu.php";
+    break;
+
   case "/omat_tiedot.php":
     if (isLoggedIn()) {
       require "views/omat_tiedot.php";
+    } else {
+      header('Location: /etusivu.php');
+    }
+    break;
+
+  case "/reseptin_editoiminen.php":
+    if (isLoggedIn()) {
+      require "views/reseptin_editoiminen.php";
     } else {
       header('Location: /etusivu.php');
     }
