@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 require "partials/head.php";
 
 $user_id = -1;
@@ -79,6 +79,59 @@ if (isset($_GET["resepti_id"])) {
         ";
     }
     echo "</div>";
+    echo 
+    "<form method='post' class='w-50'>
+        <input type='submit' name='lataa' class='btn btn-warning' value='lataa pdf'>
+    </form>
+    ";
+}
+
+if (isset($_POST["lataa"])) {
+    require_once('libraries/TCPDF-main/tcpdf.php');
+
+    // Create new PDF document
+    $pdf = new TCPDF();
+    $pdf->AddPage();
+    
+    // Set font
+    $pdf->SetFont('dejavusans', '', 24);
+    
+    // Add content
+    $pdf->Write(10, $resepti["nimi"]."  ".$resepti["lisäyspäivämäärä"]);
+
+    $pdf->SetFont('dejavusans', '', 16);
+
+    $pdf->Ln(10); // Moves down by 10 units
+
+    $word = "";
+    if ($resepti["ainesosaluettelo"] != "") {
+        foreach (mb_str_split($resepti["ainesosaluettelo"]) as $letter) {
+            if ($letter == " ") {
+                echo "<li>".$word."</li>";
+                
+                $pdf->Write(10, $word);
+                $pdf->Ln(10); // Moves down by 10 units
+                $word = " ";
+            } else {
+                if ($letter != "-") {
+                    $word .= $letter;
+                } else {
+                    $word .= " - ";
+                }
+            }
+        }
+        $pdf->Write(10, $word);
+        $pdf->Ln(10); // Moves down by 10 units
+    }
+
+    $pdf->Ln(10); // Moves down by 10 units
+    $pdf->Write(10, $resepti["valmistusohjeet"]);
+    
+    // Output PDF
+    ob_end_clean();
+
+    $pdf->Output('', 'D'); // 'D' forces download
+    
 }
 
 ?>

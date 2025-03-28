@@ -134,9 +134,12 @@ if (isset($_GET["resepti_id"])) {
 
             echo '</ul>
         </div>
+        
+        <div class="w-50">
+            <button class="form-control btn btn-primary mt-2" onclick="submitForm(\'resepti_form\')">submit</button>
+        </div>
 
         <form method="post" class="w-50">
-            <button class="form-control btn btn-primary mt-2" onclick="submitForm(\'resepti_form\')">submit</button>
             <input type="submit" name="poista" class="form-control btn btn-danger mt-5" value="poista">
         </form>
 

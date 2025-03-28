@@ -63,7 +63,7 @@ function submitForm($form) {
                 <h1 class="modal-title fs-5" id="modalTitle">Kirjaudu</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        <form action="" method="post" class=" d-flex flex-column mx-5 p-2" id="editForm">
+        <form action="" method="post" class=" d-flex flex-column mx-5 p-2" id="editForm1">
             <label for="username_login">username:</label>
             <input type="text" name="username_login" class="form-control" id="modalname">
 
