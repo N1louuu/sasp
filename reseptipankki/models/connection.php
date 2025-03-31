@@ -48,16 +48,23 @@ function insertNewUser($name, $password, $email, $year) {
     return $ok;
 }
 
-function insertNewResepti($name, $kategory, $aineosaluettelo, $valmistusohjeet, $lisääjä): bool {
+function insertNewResepti($name, $kategory, $aineosaluettelo, $valmistusohjeet, $lisääjä, $kuva): bool {
     $name = cleanUpInput($name);
     $kategory = cleanUpInput($kategory);
     $aineosaluettelo = cleanUpInput($aineosaluettelo);
     $valmistusohjeet = cleanUpInput($valmistusohjeet);
+
+    $image = "";
+    if ($kuva != "") {
+        $image= file_get_contents($kuva);
+    }
+
     $date = date("Y/m/d");
     $pdo = connect();
-    $sql = "INSERT INTO reseptit (`nimi`, `lisäyspäivämäärä`, `kategoria`, `ainesosaluettelo`, `valmistusohjeet`, `lisääjä`) VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO reseptit (`nimi`, `lisäyspäivämäärä`, `kategoria`, `ainesosaluettelo`, `valmistusohjeet`, `lisääjä`, `images`) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stm = $pdo->prepare($sql);
-    $ok = $stm->execute([$name, $date, $kategory, $aineosaluettelo, $valmistusohjeet, $lisääjä]);
+    $ok = $stm->execute([$name, $date, $kategory, $aineosaluettelo, $valmistusohjeet, $lisääjä, $image]);
+
     return $ok;
 }
 
@@ -78,11 +85,25 @@ function getReseptiById($id) {
     return $game;
 }
 
-function updateResepti($name, $kategoria, $ainesosaluettelo, $valmistusohjeet, $id) {
+function updateResepti($name, $kategoria, $ainesosaluettelo, $valmistusohjeet, $kuva, $id) {
     $pdo = connect();
-    $sql = "UPDATE `reseptit` SET `nimi`=?, `kategoria`=?, `ainesosaluettelo`=?, `valmistusohjeet`=? WHERE `id`=?";
+    $image = "";
+    if ($kuva != "") {
+        $image= file_get_contents($kuva);
+    }
+
+    $sql = "UPDATE `reseptit` SET `nimi`=?, `kategoria`=?, `ainesosaluettelo`=?, `valmistusohjeet`=?, `images`=? WHERE `id`=?";
     $stm = $pdo->prepare($sql);
-    $ok = $stm->execute([$name, $kategoria, $ainesosaluettelo, $valmistusohjeet, $id]);
+    $ok = $stm->execute([$name, $kategoria, $ainesosaluettelo, $valmistusohjeet, $image, $id]);
+    return $ok;
+}
+
+function updateReseptiPostaKuva($id) {
+    $pdo = connect();
+
+    $sql = "UPDATE `reseptit` SET `images`=? WHERE `id`=?";
+    $stm = $pdo->prepare($sql);
+    $ok = $stm->execute(["", $id]);
     return $ok;
 }
 

@@ -70,6 +70,18 @@ if (isset($_GET["resepti_id"])) {
     <h4 class='fw-bold'>valmistusohjeet:</h4>
     <p>".$resepti["valmistusohjeet"]."</p>
     ";
+
+    $binary_data = $resepti["images"];
+
+    // Define the path where the image will be saved
+    $image_path = 'temp_image/image.jpg';
+    
+    // Save the binary data as an image
+    file_put_contents($image_path, $binary_data);
+
+    echo '<img src="temp_image/image.jpg" alt="ei kuvaa" class="w-100 m-2">';
+
+
     if ($user_id == $resepti["lisääjä"]) {
         echo "
         <form method='get' action='reseptin_editoiminen.php'>
@@ -78,6 +90,7 @@ if (isset($_GET["resepti_id"])) {
         </form>
         ";
     }
+
     echo "</div>";
     echo 
     "<form method='post' class='w-50'>
@@ -102,6 +115,7 @@ if (isset($_POST["lataa"])) {
     $pdf->SetFont('dejavusans', '', 16);
 
     $pdf->Ln(10); // Moves down by 10 units
+    $pdf->Ln(10); // Moves down by 10 units
 
     $word = "";
     if ($resepti["ainesosaluettelo"] != "") {
@@ -111,7 +125,7 @@ if (isset($_POST["lataa"])) {
                 
                 $pdf->Write(10, $word);
                 $pdf->Ln(10); // Moves down by 10 units
-                $word = " ";
+                $word = "";
             } else {
                 if ($letter != "-") {
                     $word .= $letter;

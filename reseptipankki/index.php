@@ -33,6 +33,14 @@ switch($route) {
     require "views/reseptin_katsomis_sivu.php";
     break;
 
+  case "/upload.php":
+    require "views/upload.php";
+    break;
+
+  case "/upload_edit.php":
+    require "views/upload_edit.php";
+    break;
+
   case "/omat_tiedot.php":
     if (isLoggedIn()) {
       require "views/omat_tiedot.php";

@@ -132,8 +132,44 @@ if (isset($_GET["resepti_id"])) {
                 </div></li>";
             }
 
-            echo '</ul>
-        </div>
+            echo '</ul>';
+
+            ?>
+            <form action="upload_edit.php" method="post" enctype="multipart/form-data" class="w-100 mt-3 d-flex flex-column" id="img_form">
+            Valitse kuva, jonka haluat lisätä:
+            <input type="text" name="resepti_id" value="<?=$_GET["resepti_id"]?>" id="fileToUpload" class="d-none">
+            <input type="file" name="fileToUpload" id="fileToUpload" class="form-control">
+            <input type="submit" value="Upload Image" name="submit" class="d-none form-control btn btn-success mt-2">
+            <button onclick="aineetForm()" class="form-control btn btn-success mt-2">lisää</button>
+            </form>
+            <?php
+
+            $directory = 'temp_image';
+
+            $image_path = 'temp_image/image.jpg';
+
+            if (is_dir($directory)) {
+                $files = scandir($directory);
+                
+                // Count the number of items in the array  
+                // We subtract 2 to account for '.' and '..'
+                if (count($files) <= 2) {
+                    $binary_data = $resepti["images"];
+                    file_put_contents($image_path, $binary_data);
+                } else {
+                    echo "";
+                }
+            } else {
+                echo "The specified path is not a directory.";
+            }
+
+            echo '<img src="temp_image/image.jpg" alt="ei kuvaa" class="w-100 m-2">';
+
+            echo "<form method='post' class='w-100'>
+            <input type='submit' name='poista_kuva' value='poista kuva' class='form-control btn btn-danger'>
+            </form>
+            ";
+        echo '</div>
         
         <div class="w-50">
             <button class="form-control btn btn-primary mt-2" onclick="submitForm(\'resepti_form\')">submit</button>
@@ -157,13 +193,29 @@ if (isset($_POST["nimi"], $_POST["kategoria"], $_POST["ohjeet"])) {
 
     $lisääjä = $_SESSION["userid"];
 
-    updateResepti($nimi, $kategoria, $aineet, $ohjeet, $_GET["resepti_id"]);
+    $kuvat = glob('temp_image/*');
+    $kuva = "";
+    if (isset($kuvat[0])) {
+        $kuva = $kuvat[0];
+    }
+
+    updateResepti($nimi, $kategoria, $aineet, $ohjeet, $kuva, $_GET["resepti_id"]);
     echo "<script>window.location = 'etusivu.php'</script>";
 }
 
 if (isset($_POST["poista"])) {
     deleteResepti($_GET["resepti_id"]);
     echo "<script>window.location = 'etusivu.php'</script>";
+}
+
+if (isset($_POST["poista_kuva"])) {
+    $files = glob('temp_image/*'); // get all file names
+    foreach($files as $file){ // iterate files
+    if(is_file($file)) {
+        unlink($file); // delete file
+    }
+    }
+    updateReseptiPostaKuva($_GET["resepti_id"]);
 }
 
 require "partials/footer.php"
