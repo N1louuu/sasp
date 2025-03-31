@@ -137,10 +137,19 @@ if (isset($_POST["lataa"])) {
         $pdf->Write(10, $word);
         $pdf->Ln(10); // Moves down by 10 units
     }
-
+    
     $pdf->Ln(10); // Moves down by 10 units
     $pdf->Write(10, $resepti["valmistusohjeet"]);
     
+    $pdf->Ln(15);
+
+    if ($resepti["images"] != "") {
+        $imageFile = 'temp_image/image.jpg'; // Specify the path to your image
+        $pdf->Image($imageFile, 10, $pdf->GetY(), 170, 0, 'JPG', '', '', false, 300, '', false, false, 1, false, false, false);
+    }
+
+    // Add an image to the PDF
+
     // Output PDF
     ob_end_clean();
 
