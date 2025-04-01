@@ -186,10 +186,10 @@ if (isset($_GET["resepti_id"])) {
 
 
 if (isset($_POST["nimi"], $_POST["kategoria"], $_POST["ohjeet"])) {
-    $nimi = $_POST["nimi"];
-    $kategoria = $_POST["kategoria"];
-    $ohjeet = $_POST["ohjeet"];
-    $aineet = $_POST["aineet"];
+    $nimi = htmlspecialchars($_POST["nimi"]);
+    $kategoria = htmlspecialchars($_POST["kategoria"]);
+    $ohjeet = htmlspecialchars($_POST["ohjeet"]);
+    $aineet = htmlspecialchars($_POST["aineet"]);
 
     $lisääjä = $_SESSION["userid"];
 

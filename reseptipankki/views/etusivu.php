@@ -47,9 +47,9 @@ require "partials/head.php"
 <?php
 
 if (isset($_POST["username"], $_POST["password"])) {
-    $nimi = $_POST["username"];
-    $email = $_POST["email"];
-    $year = $_POST["birthyear"];
+    $nimi = htmlspecialchars($_POST["username"]);
+    $email = htmlspecialchars($_POST["email"]);
+    $year = htmlspecialchars($_POST["birthyear"]);
     $users = getUsers();
     $yes = true;
     foreach ($users as $user) {

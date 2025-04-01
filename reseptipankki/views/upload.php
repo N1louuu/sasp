@@ -6,6 +6,13 @@ if(is_file($file)) {
 }
 }
 
+if (isset($_POST["resepti_nimi_aine"]) || isset($_POST["resepti_ohje_aine"]) || isset($_POST["resepti_laji"])) {
+  // session shid
+  $_SESSION["resepti_nimi"] = $_POST["resepti_nimi_aine"];
+  $_SESSION["resepti_ohje"] = $_POST["resepti_ohje_aine"];
+  $_SESSION["resepti_laji"] = $_POST["resepti_laji"];
+}
+
 $target_dir = "images/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;

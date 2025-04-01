@@ -74,24 +74,84 @@ function add_item() {
     id_counter++
 }
 
+function update_name() {
+    resepti_nimi = document.getElementById("real_name");
+
+    resepti_nimi_aine = document.getElementById("r_nimi");
+    resepti_nimi_aine.value = resepti_nimi.value
+
+    resepti_nimi_aine = document.getElementById("r_nimi2");
+    resepti_nimi_aine.value = resepti_nimi.value
+
+    resepti_nimi_aine = document.getElementById("r_nimi3");
+    resepti_nimi_aine.value = resepti_nimi.value
+}
+
+function update_type() {
+    resepti_type = document.getElementById("real_type");
+
+    resepti_nimi_aine = document.getElementById("r_laji");
+    resepti_nimi_aine.value = resepti_type.value
+
+    resepti_nimi_aine = document.getElementById("r_laji2");
+    resepti_nimi_aine.value = resepti_type.value
+
+    resepti_nimi_aine = document.getElementById("r_laji3");
+    resepti_nimi_aine.value = resepti_type.value
+}
+
+function update_ohje() {
+    resepti_type = document.getElementById("real_ohje");
+
+    resepti_nimi_aine = document.getElementById("r_ohje");
+    resepti_nimi_aine.value = resepti_type.value
+
+    resepti_nimi_aine = document.getElementById("r_ohje2");
+    resepti_nimi_aine.value = resepti_type.value
+
+    resepti_nimi_aine = document.getElementById("r_ohje3");
+    resepti_nimi_aine.value = resepti_type.value
+}
+
 </script>
+
+<?php
+
+$resepti_nimi = "";
+if (isset($_SESSION["resepti_nimi"])) {
+    $resepti_nimi = $_SESSION["resepti_nimi"];
+}
+
+$resepti_ohje = "";
+if (isset($_SESSION["resepti_ohje"])) {
+    $resepti_ohje = $_SESSION["resepti_ohje"];
+}
+
+$resepti_laji = "";
+if (isset($_SESSION["resepti_laji"])) {
+    $resepti_laji = $_SESSION["resepti_laji"];
+}
+
+?>
 
 <div class="w-100 d-flex flex-column align-items-center mt-5">
     <h1>Luo resepti</h1>
     <form method="post" action="" class="w-50" id="resepti_form">
         <label for="nimi">resepti nimi:</label>
-        <input type="text" name="nimi" class="form-control" required>
+        <input onchange="update_name()" type="text" name="nimi" class="form-control" id="real_name" value="<?=$resepti_nimi?>" required>
 
         <label for="kategoria">kategoria:</label>
-        <select name="kategoria" class="form-control">
-            <option value="1">aamiainen</option>
-            <option value="2">pääruoka</option>
-            <option value="3">välipala</option>
-            <option value="4">jälkiruoka</option>
-        </select>
+        <?php
+        echo '<select onchange="update_type()" name="kategoria" class="form-control" id="real_type">
+            <option value="1" '.($resepti_laji == 1 ? 'selected' : '').'>aamiainen</option>
+            <option value="2" '.($resepti_laji == 2 ? 'selected' : '').'>pääruoka</option>
+            <option value="3" '.($resepti_laji == 3 ? 'selected' : '').'>välipala</option>
+            <option value="4" '.($resepti_laji == 4 ? 'selected' : '').'>jälkiruoka</option>
+        </select>';
+        ?>
 
         <label for="ohjeet">valmistusohjeet:</label>
-        <textarea name="ohjeet" rows="5" cols="33" class="form-control"></textarea>
+        <textarea onchange="update_ohje()" name="ohjeet" rows="5" cols="33" class="form-control" id="real_ohje"><?=$resepti_ohje?></textarea>
 
         <input type="text" name="aineet" class="d-none" id="aine_input" value="">
     </form>
@@ -106,6 +166,11 @@ function add_item() {
             <input type="text" name="määrä" class="form-control" id="aine_määrä">
 
             <input type="text" name="aineet2" class="d-none" id="aine_input2" value="">
+
+            <!-- stoopid -->
+            <input type="text" name="resepti_nimi_aine" class="d-none" id="r_nimi" value="<?=$resepti_nimi?>">
+            <input type="text" name="resepti_ohje_aine" class="d-none" id="r_ohje" value="<?=$resepti_ohje?>">
+            <input type="text" name="resepti_laji" class="d-none" id="r_laji" value="<?=$resepti_laji?>">
 
             <input type="submit" value="lisää" name="submit" class="d-none form-control btn btn-success mt-2">
             <button onclick="aineetForm()" class="form-control btn btn-success mt-2">lisää</button>
@@ -153,7 +218,13 @@ function add_item() {
         Valitse kuva, jonka haluat lisätä:
         <input type="file" name="fileToUpload" id="fileToUpload" class="form-control">
         <input type="submit" value="Upload Image" name="submit" class="d-none form-control btn btn-success mt-2">
-        <button onclick="aineetForm()" class="form-control btn btn-success mt-2">lisää</button>
+
+        <!-- stoopid -->
+        <input type="text" name="resepti_nimi_aine" class="d-none" id="r_nimi2" value="<?=$resepti_nimi?>">
+        <input type="text" name="resepti_ohje_aine" class="d-none" id="r_ohje2" value="<?=$resepti_ohje?>">
+        <input type="text" name="resepti_laji" class="d-none" id="r_laji2" value="<?=$resepti_laji?>">
+
+        <button onclick="aineetForm()" name="image_post" class="form-control btn btn-success mt-2">lisää</button>
     </form>
 
     <div class="w-50 mt-3 p-2 card d-flex flex-row flex-wrap">
@@ -163,6 +234,12 @@ function add_item() {
         echo '<form method="post" class="d-flex flex-column w-100">
         <img src="'.$file.'" alt="kuvva" class="m-0 p-0" style="">
         <input type="text" value="'.$file.'" name="kuva_id" class="d-none">
+
+        <!-- stoopid -->
+        <input type="text" name="resepti_nimi_aine" class="d-none" id="r_nimi3" value="'.$resepti_nimi.'">
+        <input type="text" name="resepti_ohje_aine" class="d-none" id="r_ohje3" value="'.$resepti_ohje.'">
+        <input type="text" name="resepti_laji" class="d-none" id="r_laji3" value="'.$resepti_laji.'">
+
         <input type="submit" value="delete" name="poista_kuva" class="btn btn-danger">
         </form>';
     }
@@ -181,10 +258,10 @@ function add_item() {
 <?php
 
 if (isset($_POST["nimi"], $_POST["kategoria"], $_POST["ohjeet"])) {
-    $nimi = $_POST["nimi"];
-    $kategoria = $_POST["kategoria"];
-    $ohjeet = $_POST["ohjeet"];
-    $aineet = $_POST["aineet"];
+    $nimi = htmlspecialchars($_POST["nimi"]);
+    $kategoria = htmlspecialchars($_POST["kategoria"]);
+    $ohjeet = htmlspecialchars($_POST["ohjeet"]);
+    $aineet = htmlspecialchars($_POST["aineet"]);
 
     $lisääjä = $_SESSION["userid"];
 
@@ -195,6 +272,9 @@ if (isset($_POST["nimi"], $_POST["kategoria"], $_POST["ohjeet"])) {
     }
 
     $_SESSION["aineet"] = "";
+    $_SESSION["resepti_nimi"] = "";
+    $_SESSION["resepti_ohje"] = "";
+    $_SESSION["resepti_laji"] = "";
 
     insertNewResepti($nimi, $kategoria, $aineet, $ohjeet, $lisääjä, $kuva);
 
@@ -232,6 +312,14 @@ if (isset($_POST["poista_kuva"])) {
     }
     echo "<script>window.location = 'reseptin_luoimissivu.php'</script>";
 }
+
+if (isset($_POST["resepti_nimi_aine"]) || isset($_POST["resepti_ohje_aine"]) || isset($_POST["resepti_laji"])) {
+    // session shid
+    $_SESSION["resepti_nimi"] = $_POST["resepti_nimi_aine"];
+    $_SESSION["resepti_ohje"] = $_POST["resepti_ohje_aine"];
+    $_SESSION["resepti_laji"] = $_POST["resepti_laji"];
+}
+
 
 require "partials/footer.php"
 
